@@ -1,0 +1,27 @@
+# ROS2 heavy folders - KHÔNG push
+build/
+install/
+log/
+.ros/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temp & cache
+*.log
+*.db
+*.tmp
+latest
+.built_by
+.colcon_install_layout
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Other
+*.bak
+*~
