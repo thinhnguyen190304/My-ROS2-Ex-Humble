@@ -1,0 +1,28 @@
+### creating the package for launch file
+# ussing default package
+cd ros2_ws/src
+ros2 pkg create my_robot_bringup
+
+cd my_robot_bringup/
+rm -r include/ src/
+
+mkdir launch
+
+## modify the CmakeList.txt as sample
+## create a number_app.launch.xml in /launch/
+copy below to file
+<launch>
+    <node pkg="my_py_pkg" exec="number_publisher" />
+    <node pkg="my_py_pkg" exec="number_counter" />
+</launch>
+
+cd ros2_ws
+colcon build --packages-select my_robot_bringup
+
+source /install/setup.bash
+source ~/.bachrc
+
+#running launch file
+ros2 launch my_robot_bringup number_app.launch.xml
+
+### do homework in the sample codes

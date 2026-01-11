@@ -1,0 +1,30 @@
+### importing params from terminal
+ros2 run my_py_pkg number_publisher --ros-args -p number:=3 --ros-args -p timer_period:=0.5
+
+### importing params from yaml file
+ros2 run my_py_pkg number_publisher --ros-args --params-file ~/yaml_params/numer_params.yaml
+
+### importing params from multu-params yaml file
+ros2 run my_py_pkg number_publisher --ros-args -r __node:=number_publisher1 --params-file ~/yaml_params/number_params.yaml
+
+### show topic
+ros2 topic echo /number
+ros2 topic hz /number
+
+ros2 param set /number_publisher number 4
+
+### practicing with robot_news_station
+ros2 run my_py_pkg robot_news_station --ros-args -p robot_name:=abc
+ros2 run my_py_pkg robot_news_station --ros-args -r __node:=station1 -p robot_name:=abc
+
+ros2 run my_py_pkg robot_news_station --ros-args -p robot_name:="The Robot"
+ros2 run my_py_pkg robot_news_station --ros-args -r __node:=station2 -p robot_name:="The Robot"
+
+ros2 topic echo /robot_news
+ros2 param get /robot_news_station robot_name
+
+### practicing with led_panel
+ros2 run my_py_pkg led_panel --ros-args -p led_states:="[0,0,0,0]"
+
+ros2 topic echo /led_panel_state
+ros2 param get /led_panel led_states

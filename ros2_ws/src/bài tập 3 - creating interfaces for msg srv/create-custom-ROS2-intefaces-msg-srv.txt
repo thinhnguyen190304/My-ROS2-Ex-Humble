@@ -1,0 +1,38 @@
+cd ros2_ws/src/ enter
+#  create a pakage for imterface
+ros2 pkg create my_robot_interfaces
+
+include src CmakeLists.txt pakage.xml
+
+cd my_robot_interfaces
+rm -rf inlude src
+mkdir msg srv
+
+cd msg
+touch HarewareStatus.msg
+#in HardwareStatus.msg we modify code using vs code
+float64 temperature
+bool are_motors_ready
+string debug_message
+
+cd ../srv
+touch ComputeRectangleArea.srv
+# in ComputeRectangleArea.srv we modify code using vs code
+float64 length
+float64 width
+---
+float64 area 
+
+#update CmakeLists.txt and package.xml as sample code
+
+# cd workspace
+cd ros2_ws
+colcon build --packages-select my_robot_interfaces
+
+#verifying the interfaces
+ros2 interface show my_robot_interfaces/msg/HardwareStatus
+ros2 interface show my_robot_interfaces/srv/ComputeRectangleArea
+
+#if don't run, let run the source again
+source ~/.bashrc
+source /ros2_ws/install/setup.bash

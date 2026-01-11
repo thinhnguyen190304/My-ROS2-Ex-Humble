@@ -1,0 +1,27 @@
+# ROS2 build/install/log - KHÔNG push
+build/
+install/
+log/
+.ros/
+
+# Cache & temp files
+*.pyc
+__pycache__/
+*.log
+*.db
+*.tmp
+
+# Symlink & file đặc biệt từ WSL
+latest
+.built_by
+.colcon_install_layout
+
+# Editor & IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Other temp
+*.bak
+*.~

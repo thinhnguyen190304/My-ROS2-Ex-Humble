@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<robot name="my_quadbot">
+
+  <!-- Thân robot (vuông, thấp để ổn định) -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.3 0.15"/>
+      </geometry>
+      <material name="dark_gray">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.4 0.3 0.15"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.2" ixy="0.0" ixz="0.0" iyy="0.2" iyz="0.0" izz="0.2"/>
+    </inertial>
+  </link>
+
+  <!-- Đầu (cylinder) -->
+  <link name="head">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.1"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.2" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.02" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="neck" type="fixed">
+    <parent link="base_link"/>
+    <child link="head"/>
+    <origin xyz="0.15 0 0.15" rpy="0 0 0"/>
+  </joint>
+
+  <!-- 4 chân (mỗi chân có 1 link đơn giản, joint revolute để di chuyển sau) -->
+  <!-- Chân trước trái -->
+  <link name="fl_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="fl_hip" type="revolute">
+    <parent link="base_link"/>
+    <child link="fl_leg"/>
+    <origin xyz="0.15 0.15 -0.08" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="50" velocity="10"/>
+  </joint>
+
+  <!-- Chân trước phải -->
+  <link name="fr_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="fr_hip" type="revolute">
+    <parent link="base_link"/>
+    <child link="fr_leg"/>
+    <origin xyz="0.15 -0.15 -0.08" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="50" velocity="10"/>
+  </joint>
+
+  <!-- Chân sau trái -->
+  <link name="bl_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="bl_hip" type="revolute">
+    <parent link="base_link"/>
+    <child link="bl_leg"/>
+    <origin xyz="-0.15 0.15 -0.08" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="50" velocity="10"/>
+  </joint>
+
+  <!-- Chân sau phải -->
+  <link name="br_leg">
+    <visual>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.25" radius="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="br_hip" type="revolute">
+    <parent link="base_link"/>
+    <child link="br_leg"/>
+    <origin xyz="-0.15 -0.15 -0.08" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="50" velocity="10"/>
+  </joint>
+
+  <!-- Tail (đuôi vui) -->
+  <link name="tail">
+    <visual>
+      <geometry>
+        <cylinder length="0.3" radius="0.03"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.3" radius="0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="tail_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="tail"/>
+    <origin xyz="-0.2 0 0.05" rpy="0 1.57 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.8" upper="0.8" effort="10" velocity="5"/>
+  </joint>
+
+  <!-- Physics cho Gazebo - robot đứng vững, không lăn -->
+  <gazebo>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so"/>
+  </gazebo>
+
+</robot>
