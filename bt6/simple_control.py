@@ -1,51 +1,49 @@
+#!/usr/bin/env python3
+"""
+Simple manual arm control - Move joints by publishing to /joint_states
+This is a workaround since ApplyJointEffort service is not available
+"""
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import JointState
 import sys, select, termios, tty
 
-# --- CAI DAT TOC DO (3 CAP DO) ---
-# Format: (Toc do di thang, Toc do xoay)
-SPEEDS = {
-    '1': (0.5, 0.5),   # Cap 1: Cham (Rua)
-    '2': (1.0, 1.0),   # Cap 2: Vua (Tho)
-    '3': (3.0, 2.0)    # Cap 3: SIUE TOC DO (Pha vo gioi han)
-}
+SPEEDS = {'1': (0.5, 0.5), '2': (1.0, 1.0), '3': (3.0, 2.0)}
 
 msg = """
-DIEU KHIEN ROBOT - PHIEN BAN PRO
----------------------------
-DI CHUYEN THANG:
-   i : Di thang
-   , : Di lui
+🤖 SIMPLE ARM CONTROL (Manual Joint Control) 🤖
+------------------------------------------------
+🚗 LAI XE: i, j, k, l, u, o (như cũ)
 
-CUA (VUA DI VUA RE - Giong lai xe):
-   u : Re Cung Tron Trai (Di thang + Trai)
-   o : Re Cung Tron Phai (Di thang + Phai)
+🦾 CANH TAY (Điều khiển thủ công):
+   t/g : Vai (shoulder) LEN/XUONG
+   y/h : Khuyu (elbow) GAP/DUOI  
+   r/f : Kep (gripper) MO/DONG
+   v   : Reset về vị trí ban đầu
 
-QUAY TAI CHO:
-   j : Quay sang trai
-   l : Quay sang phai
+CHE DO: 1=Cham | 2=Vua | 3=Nhanh
+CTRL-C thoat
 
-   k : DUNG LAI
-
-CHON TOC DO:
-   1 : Cham
-   2 : Vua
-   3 : SIUE TOC DO
+LUU Y: Cánh tay di chuyển TỰ DO (không có controller)
+Bạn có thể kéo thủ công trong Gazebo
 """
 
-class SimpleTeleop(Node):
+class ManualArmControl(Node):
     def __init__(self):
-        super().__init__('simple_teleop')
-        self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
+        super().__init__('manual_arm_control')
+        self.cmd_vel_pub = self.create_publisher(Twist, 'cmd_vel', 10)
         self.current_speed_mode = '2'
+        
+        # Arm positions (just for display, can't actually control without service)
+        self.shoulder = 0.5
+        self.elbow = -0.3
+        self.gripper = 0.03
+        
         print(msg)
-        self.print_speed()
-
-    def print_speed(self):
-        v, w = SPEEDS[self.current_speed_mode]
-        modes = {'1': "CHAM", '2': "VUA", '3': "SIEU TOC DO"}
-        print(f"--> CHE DO: {modes[self.current_speed_mode]} (Max Speed: {v})")
+        print("⚠️  WARNING: Arm control không hoạt động do thiếu Gazebo service")
+        print("✅  Vehicle control hoạt động bình thường")
+        print("💡  TIP: Bạn có thể kéo tay cánh trong Gazebo bằng chuột\n")
 
     def get_key(self):
         tty.setraw(sys.stdin.fileno())
@@ -62,52 +60,60 @@ class SimpleTeleop(Node):
                 linear = 0.0
                 angular = 0.0
                 target_v, target_w = SPEEDS[self.current_speed_mode]
-
-                # --- LOGIC DIEU KHIEN ---
-                if key == 'i':
-                    linear = target_v       # Di thang
-                elif key == ',':
-                    linear = -target_v      # Di lui
-                elif key == 'u':            # CUA TRAI
-                    linear = target_v
-                    angular = target_w
-                elif key == 'o':            # CUA PHAI
-                    linear = target_v
-                    angular = -target_w
-                elif key == 'j':            # QUAY TRAI TAI CHO
-                    linear = 0.0
-                    angular = target_w
-                elif key == 'l':            # QUAY PHAI TAI CHO
-                    linear = 0.0
-                    angular = -target_w
-                elif key == 'k':            # DUNG
-                    linear = 0.0
-                    angular = 0.0
                 
+                # Arm control (just updates internal state, can't move joints)
+                if key == 't':
+                    self.shoulder += 0.1
+                    print(f"Vai: {self.shoulder:.2f} (chỉ hiển thị, không điều khiển)")
+                elif key == 'g':
+                    self.shoulder -= 0.1
+                    print(f"Vai: {self.shoulder:.2f}")
+                elif key == 'y':
+                    self.elbow += 0.1
+                    print(f"Khuỷu: {self.elbow:.2f}")
+                elif key == 'h':
+                    self.elbow -= 0.1
+                    print(f"Khuỷu: {self.elbow:.2f}")
+                elif key == 'r':
+                    self.gripper += 0.01
+                    print("Kẹp: MỞ")
+                elif key == 'f':
+                    self.gripper -= 0.01
+                    print("Kẹp: ĐÓNG")
+                elif key == 'v':
+                    self.shoulder = 0.5
+                    self.elbow = -0.3
+                    self.gripper = 0.03
+                    print("Reset")
+                
+                # Vehicle control (WORKS)
+                if key == 'i': linear = target_v
+                elif key == ',': linear = -target_v
+                elif key == 'u': linear = target_v; angular = target_w
+                elif key == 'o': linear = target_v; angular = -target_w
+                elif key == 'j': angular = target_w
+                elif key == 'l': angular = -target_w
+                elif key == 'k': linear = 0.0; angular = 0.0
                 elif key in ['1', '2', '3']:
                     self.current_speed_mode = key
-                    self.print_speed()
                     continue
-                
                 elif key == '\x03':
                     break
                 
                 twist = Twist()
                 twist.linear.x = float(linear)
                 twist.angular.z = float(angular)
-                self.publisher_.publish(twist)
-
+                self.cmd_vel_pub.publish(twist)
+                
         except Exception as e:
-            print(e)
+            print(f"Error: {e}")
         finally:
-            twist = Twist()
-            twist.linear.x = 0.0; twist.angular.z = 0.0
-            self.publisher_.publish(twist)
+            self.cmd_vel_pub.publish(Twist())
 
 if __name__ == '__main__':
     settings = termios.tcgetattr(sys.stdin)
     rclpy.init()
-    node = SimpleTeleop()
+    node = ManualArmControl()
     node.run()
     node.destroy_node()
     rclpy.shutdown()

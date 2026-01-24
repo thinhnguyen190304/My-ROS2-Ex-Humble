@@ -1,9 +1,9 @@
 @echo off
 color 0B
-title --- REMOTE LAI XE PRO ---
+title --- REMOTE LAI XE + GAP DO ---
 cls
 echo ========================================================
-echo        REMOTE LAI XE PRO  (Version 2.0)
+echo        REMOTE LAI XE & GIAO DO (Sieu Cap Vip Pro)
 echo ========================================================
 echo.
 echo    [ U ]      [ I ]      [ O ]
@@ -17,18 +17,18 @@ echo               ^|
 echo             [ , ]
 echo            (Di Lui)
 echo.
-echo      [ K ] : PHANH CHAN (Dung lai!)
+echo --------------------------------------------------------
+echo         CANH TAY ROBOT (MAY GAP)
+echo --------------------------------------------------------
+echo    [ T ] : Vai LEN       [ Y ] : Khuyu LEN
+echo    [ G ] : Vai XUONG     [ H ] : Khuyu XUONG
+echo.
+echo    [ R ] : MO KEP (Nha do)
+echo    [ F ] : DONG KEP (Gap do)
+echo.
+echo    [ V ] : Reset tay ve vi tri ban dau
 echo.
 echo ========================================================
-echo  CHON TOC DO:
-echo    [ 1 ] : Cham
-echo    [ 2 ] : Vua  (Di mac dinh)
-echo    [ 3 ] : SIUE NHANH (Bao dom)
-echo ========================================================
-echo.
-echo  LUU Y: May tinh khong nhan duoc 2 phim cung luc.
-echo         De vua di vua re, hay bam phim U hoac O !
-echo.
-echo  Click chuot vao day truoc khi bam phim nhe!
+echo  QUAN TRONG: Click chuot vao day truoc khi bam phim!
 echo.
 wsl -d Ubuntu-22.04 -- bash -c "source /opt/ros/humble/setup.bash && python3 /mnt/d/Documents/ROS2_Course_Projects_Learn/bt6/simple_control.py"

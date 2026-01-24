@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<link name="arm_base">
+<visual><origin xyz="0 0 0.025"/><geometry><cylinder length="0.05" radius="0.04"/></geometry><material name="orange"/></visual>
+<collision><origin xyz="0 0 0.025"/><geometry><cylinder length="0.05" radius="0.04"/></geometry></collision>
+<inertial><origin xyz="0 0 0.025"/><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="arm_base_joint" type="fixed"><parent link="base_link"/><child link="arm_base"/><origin xyz="0 0 0.2"/></joint>
+<link name="link1">
+<visual><origin xyz="0 0 0.2"/><geometry><box size="0.04 0.04 0.4"/></geometry><material name="orange"/></visual>
+<collision><origin xyz="0 0 0.18"/><geometry><box size="0.04 0.04 0.36"/></geometry></collision>
+<inertial><origin xyz="0 0 0.2"/><mass value="0.5"/><inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="shoulder_joint" type="revolute"><parent link="arm_base"/><child link="link1"/><origin xyz="0 0 0.052"/><axis xyz="0 1 0"/><limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/><dynamics damping="0.1" friction="0.1"/></joint>
+<link name="link2">
+<visual><origin xyz="0 0 0.175"/><geometry><box size="0.03 0.03 0.35"/></geometry><material name="orange"/></visual>
+<collision><origin xyz="0 0 0.175"/><geometry><box size="0.03 0.03 0.35"/></geometry></collision>
+<inertial><origin xyz="0 0 0.175"/><mass value="0.4"/><inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="elbow_joint" type="revolute"><parent link="link1"/><child link="link2"/><origin xyz="0 0 0.402"/><axis xyz="0 1 0"/><limit lower="-1.57" upper="1.57" effort="50" velocity="1.0"/><dynamics damping="0.1" friction="0.1"/></joint>
+<link name="gripper_base">
+<visual><geometry><box size="0.05 0.1 0.03"/></geometry><material name="grey"/></visual>
+<collision><geometry><box size="0.05 0.1 0.03"/></geometry></collision>
+<inertial><mass value="0.1"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="gripper_base_joint" type="fixed"><parent link="link2"/><child link="gripper_base"/><origin xyz="0 0 0.367"/></joint>
+<link name="f1">
+<visual><origin xyz="0 0 0.05"/><geometry><box size="0.03 0.05 0.1"/></geometry><material name="grey"/></visual>
+<collision><origin xyz="0 0 0.05"/><geometry><box size="0.03 0.05 0.1"/></geometry></collision>
+<inertial><origin xyz="0 0 0.05"/><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="left_finger_joint" type="prismatic"><parent link="gripper_base"/><child link="f1"/><origin xyz="0 0.005 0.015"/><axis xyz="0 1 0"/><limit lower="0" upper="0.25" effort="1000" velocity="0.5"/></joint>
+<link name="f2">
+<visual><origin xyz="0 0 0.05"/><geometry><box size="0.03 0.05 0.1"/></geometry><material name="grey"/></visual>
+<collision><origin xyz="0 0 0.05"/><geometry><box size="0.03 0.05 0.1"/></geometry></collision>
+<inertial><origin xyz="0 0 0.05"/><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+</link>
+<joint name="right_finger_joint" type="prismatic"><parent link="gripper_base"/><child link="f2"/><origin xyz="0 -0.005 0.015"/><axis xyz="0 -1 0"/><limit lower="0" upper="0.25" effort="1000" velocity="0.5"/></joint>
+<gazebo reference="arm_base"><material>Gazebo/Orange</material><self_collide>false</self_collide></gazebo>
+<gazebo reference="link1"><material>Gazebo/Orange</material><self_collide>false</self_collide></gazebo>
+<gazebo reference="link2"><material>Gazebo/Orange</material><self_collide>false</self_collide></gazebo>
+<gazebo reference="gripper_base"><material>Gazebo/Black</material><self_collide>false</self_collide></gazebo>
+<gazebo reference="f1"><material>Gazebo/Grey</material><mu1>100.0</mu1><mu2>100.0</mu2><kp>1000000.0</kp><kd>1.0</kd><minDepth>0.01</minDepth><maxVel>0.1</maxVel></gazebo>
+<gazebo reference="f2"><material>Gazebo/Grey</material><mu1>100.0</mu1><mu2>100.0</mu2><kp>1000000.0</kp><kd>1.0</kd><minDepth>0.01</minDepth><maxVel>0.1</maxVel></gazebo>
+<ros2_control name="GazeboSystem" type="system">
+<hardware><plugin>gazebo_ros2_control/GazeboSystem</plugin></hardware>
+<joint name="shoulder_joint"><command_interface name="position"><param name="min">-1.57</param><param name="max">1.57</param></command_interface><state_interface name="position"/><state_interface name="velocity"/></joint>
+<joint name="elbow_joint"><command_interface name="position"><param name="min">-1.57</param><param name="max">1.57</param></command_interface><state_interface name="position"/><state_interface name="velocity"/></joint>
+<joint name="left_finger_joint"><command_interface name="position"><param name="min">0</param><param name="max">0.25</param></command_interface><state_interface name="position"/><state_interface name="velocity"/></joint>
+<joint name="right_finger_joint"><command_interface name="position"><param name="min">0</param><param name="max">0.25</param></command_interface><state_interface name="position"/><state_interface name="velocity"/></joint>
+</ros2_control>
+<gazebo><plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so"><parameters>$(find my_robot_bringup)/config/arm_controllers.yaml</parameters><robot_param>robot_description</robot_param><robot_param_node>robot_state_publisher</robot_param_node></plugin></gazebo>
+</robot>

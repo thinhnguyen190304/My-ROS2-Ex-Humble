@@ -1,31 +1,36 @@
-# 🎮 HƯỚNG DẪN ĐIỀU KHIỂN ROBOT (Dễ ợt!)
+# 🎮 HƯỚNG DẪN ĐIỀU KHIỂN ROBOT (Bản Chuẩn Nhất)
 
-Chào mừng bạn đến với chương trình điều khiển Robot! Làm theo 3 bước sau để bắt đầu chơi nhé:
+Chào mừng bạn đến với chương trình điều khiển Robot! Làm theo các bước sau để trình diễn đồ án:
 
 ### BƯỚC 1: Khởi động Robot 🤖
-1. Tìm file tên là **`run_simulation.bat`** trong thư mục.
-2. Nhấn đúp chuột (Double click) vào nó.
-3. Đợi một xíu... Một cửa sổ hiện ra với con Robot màu xanh dương đang đứng trên sàn.
-   *(Đừng tắt cửa sổ này nhé!)*
 
-### BƯỚC 2: Mở bảng điều khiển ⌨️
-1. Tìm file tên là **`control_robot.bat`**.
-2. Nhấn đúp chuột vào nó.
-3. Một cửa sổ màu đen sẽ hiện lên. Đây là cái "Remote" điều khiển của bạn.
+1. Nhấn đúp chuột vào file **`run_simulation.bat`**.
+2. Đợi cửa sổ hiện ra căn nhà 3D và con robot (Khoảng 15-20 giây).
 
-### BƯỚC 3: Lái xe thôi! 🚗💨
-**QUAN TRỌNG:** Bạn phải lấy chuột **BẤM VÀO** cái cửa sổ màu đen của Bước 2 thì mới lái được nhé!
+### BƯỚC 2: Mở bảng lái xe 🚗💨
 
-**Các phím di chuyển:**
-- **`i`** : Đi thẳng ⬆️
-- **`,`** : Đi lùi ⬇️
-- **`j`** : Rẽ trái ⬅️
-- **`l`** : Rẽ phải ➡️
-- **`k`** : Phanh gấp (Dừng lại) 🛑
+1. Nhấn đúp chuột vào file **`control_robot.bat`**.
+2. Bấm chuột vào cửa sổ này và dùng các phím:
+   - **`i`** / **`,`** : Tiến / Lùi.
+   - **`j`** / **`l`** : Trái / Phải.
+   - Lái xe đến sát cái **TRỤ MÀU ĐỎ** trên cái tủ gỗ.
 
-**Muốn đua xe? (Chỉnh tốc độ):**
-- **`q`** : Tăng tốc (Chạy nhanh hơn!) 🚀
-- **`z`** : Giảm tốc (Chạy chậm lại) 🐢
+### BƯỚC 3: Điều khiển Cánh tay (Bàn phím) 🦾⌨️
+
+1. Nhấn đúp chuột vào file **`control_arm_keyboard.bat`**.
+2. Bấm chuột vào cửa sổ đen vừa hiện ra và dùng các phím:
+   - **`w`** / **`s`** : Nâng / Hạ cánh tay.
+   - **`a`** / **`d`** : Co / Duỗi cánh tay.
+   - **`o`** / **`c`** : Mở / Đóng bàn gắp.
+3. Điều khiển sao cho bàn gắp chạm sát vào cái **TRỤ ĐỎ**.
+
+### BƯỚC 4: Gắp và Nhả vật 📦🦾
+
+Ngay trong lúc đang bật bảng ở Bước 3, bạn có thể thực hiện lệnh gắp:
+
+1. Nhấn phím **`g`** (Grasp) : Trụ đỏ sẽ dính chặt vào tay robot.
+2. Nâng tay lên và lái xe đi chỗ khác -> Trụ đỏ sẽ đi theo!
+3. Nhấn phím **`h`** (Release) : Nhả trụ đỏ tại vị trí mới.
 
 ---
-*Chơi chán rồi muốn tắt thì cứ bấm dấu X ở góc các cửa sổ là xong! Chúc vui vẻ!* ^^
+**💡 Mẹo:** Nếu bảng nào bị lỗi đen xì, hãy tắt đi bật lại file `.bat` tương ứng. Chúc bạn nộp bài thành công rực rỡ! 🦾🏆✨

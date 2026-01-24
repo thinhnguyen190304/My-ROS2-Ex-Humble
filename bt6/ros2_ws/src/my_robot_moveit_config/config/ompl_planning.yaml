@@ -1,0 +1,81 @@
+planner_configs:
+  SBLkConfigDefault:
+    type: geometric::SBL
+    range: 0.0  # default
+  ESTkConfigDefault:
+    type: geometric::EST
+    range: 0.0  # default
+    goal_bias: 0.05  # default
+  LBKPIECEkConfigDefault:
+    type: geometric::LBKPIECE
+    range: 0.0  # default
+    border_fraction: 0.9  # default
+    min_valid_path_fraction: 0.5  # default
+  BKPIECEkConfigDefault:
+    type: geometric::BKPIECE
+    range: 0.0  # default
+    border_fraction: 0.9  # default
+    failed_expansion_score_factor: 0.01  # default
+    min_valid_path_fraction: 0.5  # default
+  KPIECEkConfigDefault:
+    type: geometric::KPIECE
+    range: 0.0  # default
+    goal_bias: 0.05  # default
+    border_fraction: 0.9  # default
+    failed_expansion_score_factor: 0.01  # default
+    min_valid_path_fraction: 0.5  # default
+  RRTkConfigDefault:
+    type: geometric::RRT
+    range: 0.0  # default
+    goal_bias: 0.05  # default
+  RRTConnectkConfigDefault:
+    type: geometric::RRTConnect
+    range: 0.0  # default
+  RRTstarkConfigDefault:
+    type: geometric::RRTstar
+    range: 0.0  # default
+    goal_bias: 0.05  # default
+    delay_collision_checking: 1  # default
+  TRRTkConfigDefault:
+    type: geometric::TRRT
+    range: 0.0  # default
+    goal_bias: 0.05  # default
+    max_states_failed: 10  # default
+    temp_change_factor: 0.1  # default
+    min_temperature: 10e-10  # default
+    init_temperature: 10e-6  # default
+    froude: 0.0  # default
+    gamma: 0.5  # default
+  PRMkConfigDefault:
+    type: geometric::PRM
+    max_nearest_neighbors: 10  # default
+  PRMstarkConfigDefault:
+    type: geometric::PRMstar
+arm:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+gripper:
+  default_planner_config: RRTConnectkConfigDefault
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault

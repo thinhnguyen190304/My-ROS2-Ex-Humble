@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="my_robot">
+    <group name="arm">
+        <chain base_link="arm_base" tip_link="gripper_base"/>
+    </group>
+    <group name="gripper">
+        <link name="gripper_base"/>
+        <link name="left_finger"/>
+        <link name="right_finger"/>
+        <joint name="left_finger_joint"/>
+        <joint name="right_finger_joint"/>
+    </group>
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base_footprint"/>
+    <group_state name="home" group="arm">
+        <joint name="shoulder_joint" value="0"/>
+        <joint name="elbow_joint" value="0"/>
+    </group_state>
+    <group_state name="open" group="gripper">
+        <joint name="left_finger_joint" value="0.03"/>
+        <joint name="right_finger_joint" value="0.03"/>
+    </group_state>
+    <group_state name="close" group="gripper">
+        <joint name="left_finger_joint" value="0"/>
+        <joint name="right_finger_joint" value="0"/>
+    </group_state>
+    <end_effector name="gripper_ee" parent_link="gripper_base" group="gripper" parent_group="arm"/>
+    <disable_collisions link1="arm_base" link2="arm_link1" reason="Adjacent"/>
+    <disable_collisions link1="arm_link1" link2="arm_link2" reason="Adjacent"/>
+    <disable_collisions link1="arm_link2" link2="gripper_base" reason="Adjacent"/>
+    <disable_collisions link1="gripper_base" link2="left_finger" reason="Adjacent"/>
+    <disable_collisions link1="gripper_base" link2="right_finger" reason="Adjacent"/>
+</robot>
